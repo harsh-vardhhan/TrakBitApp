@@ -17,17 +17,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
         initNavigationDrawer()
     }
 
     private fun initNavigationDrawer() {
         drawerLayout = findViewById(R.id.drawer)
-        val actionBarDrawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
+        val actionBarDrawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.drawer_open,
+                R.string.drawer_close) {
             override fun onDrawerClosed(v: View?) {
                 super.onDrawerClosed(v)
             }
