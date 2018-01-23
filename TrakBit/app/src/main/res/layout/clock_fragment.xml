@@ -11,10 +11,10 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.trakbit.harshvardhan.trakbit.MainActivity"
     tools:showIn="@layout/activity_main">
-<Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    android:layout_alignParentRight="true"
-    android:text="@string/clock" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentRight="true"
+        android:text="@string/clock" />
 </app:RelativeLayout>

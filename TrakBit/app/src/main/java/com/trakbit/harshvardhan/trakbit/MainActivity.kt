@@ -1,40 +1,34 @@
 package com.trakbit.harshvardhan.trakbit
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
+import android.support.design.widget.TabLayout
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.view.View
-
-import kotlinx.android.synthetic.main.activity_main.*
+import android.support.v7.widget.Toolbar
 
 class MainActivity : AppCompatActivity() {
 
-    private var drawerLayout: DrawerLayout? = null
+    private lateinit var toolbar: Toolbar
+    private lateinit var tabLayout: TabLayout
+    private lateinit var viewPager: ViewPager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        initNavigationDrawer()
+        viewPager = findViewById<ViewPager>(R.id.viewpager)
+        setupViewPager(viewPager)
+        tabLayout = findViewById<TabLayout>(R.id.tabs)
+        tabLayout.setupWithViewPager(viewPager)
     }
 
-    private fun initNavigationDrawer() {
-        drawerLayout = findViewById(R.id.drawer)
-        val actionBarDrawerToggle = object : ActionBarDrawerToggle(this, drawerLayout, toolbar,
-                R.string.drawer_open,
-                R.string.drawer_close) {
-            override fun onDrawerClosed(v: View?) {
-                super.onDrawerClosed(v)
-            }
-
-            override fun onDrawerOpened(v: View?) {
-                super.onDrawerOpened(v)
-            }
-        }
-        drawerLayout!!.addDrawerListener(actionBarDrawerToggle)
-        actionBarDrawerToggle.syncState()
+    private fun setupViewPager(viewPager: ViewPager) {
+        var adapter = ViewPageAdapter(supportFragmentManager)
+        adapter.addFragment(ClockFragment(), "Clock")
+        adapter.addFragment(ClockFragment(), "Clock")
+        adapter.addFragment(ClockFragment(), "Clock")
+        viewPager.adapter = adapter
     }
 
 }
