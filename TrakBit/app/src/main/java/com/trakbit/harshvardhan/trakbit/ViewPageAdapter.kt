@@ -22,6 +22,10 @@ class ViewPageAdapter: FragmentPagerAdapter {
         return fragmentList.get(position)
     }
 
+    override fun getPageTitle(position: Int): String {
+        return fragmentTitle.get(position)
+    }
+
     override fun getCount(): Int {
         return fragmentList.size
     }
