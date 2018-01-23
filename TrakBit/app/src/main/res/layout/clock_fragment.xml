@@ -9,7 +9,7 @@
     android:paddingRight="16dp"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.trakbit.harshvardhan.trakbit.MainActivity"
+    tools:context="com.trakbit.harshvardhan.trakbit.activities.MainActivity"
     tools:showIn="@layout/activity_main">
     <Button
         android:layout_width="match_parent"

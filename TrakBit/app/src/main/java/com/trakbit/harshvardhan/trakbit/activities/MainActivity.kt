@@ -1,13 +1,13 @@
-package com.trakbit.harshvardhan.trakbit
+package com.trakbit.harshvardhan.trakbit.activities
 
 import android.os.Bundle
-import android.support.design.widget.TabItem
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
-import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_main.*
+import com.trakbit.harshvardhan.trakbit.R
+import com.trakbit.harshvardhan.trakbit.adapters.ViewPageAdapter
+import com.trakbit.harshvardhan.trakbit.fragments.ClockFragment
+import com.trakbit.harshvardhan.trakbit.fragments.ClockingFragment
 
 class MainActivity : AppCompatActivity() {
 

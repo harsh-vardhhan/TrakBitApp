@@ -1,4 +1,4 @@
-package com.trakbit.harshvardhan.trakbit
+package com.trakbit.harshvardhan.trakbit.adapters
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
