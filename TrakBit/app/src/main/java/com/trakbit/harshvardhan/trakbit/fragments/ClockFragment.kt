@@ -9,13 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.trakbit.harshvardhan.trakbit.R
 import kotlinx.android.synthetic.main.clock_fragment.*
-import android.Manifest
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import org.joda.time.DateTime
-import java.text.SimpleDateFormat
-import java.util.Calendar
 
 /**
  * Created by harshvardhan on 19/01/2018.
