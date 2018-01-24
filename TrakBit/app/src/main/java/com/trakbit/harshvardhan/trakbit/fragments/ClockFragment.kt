@@ -12,7 +12,12 @@ import kotlinx.android.synthetic.main.clock_fragment.*
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import com.trakbit.harshvardhan.trakbit.models.Attendance
+import io.realm.Realm
+import io.realm.kotlin.createObject
+import io.realm.kotlin.where
 import org.joda.time.DateTime
+import kotlin.properties.Delegates
 
 /**
  * Created by harshvardhan on 19/01/2018.
@@ -20,8 +25,10 @@ import org.joda.time.DateTime
 class ClockFragment: Fragment() {
 
     private val PERMISSIONS_REQUEST_READ_PHONE_STATE: Int  = 0;
+    private var realm: Realm by Delegates.notNull()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        realm = Realm.getDefaultInstance()
         if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_PHONE_STATE)  !=
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
@@ -41,18 +48,24 @@ class ClockFragment: Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         clockButton.setOnClickListener {
-            println(getDeviceDetail())
+            clockDevice(realm)
         }
     }
 
-    private fun getDeviceDetail (): String? {
+    private fun clockDevice (realm: Realm) {
         val time  = DateTime.now()
-        val detail = "no access"
         val tManager: TelephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_PHONE_STATE)  ==
                 PackageManager.PERMISSION_GRANTED) {
-            return tManager.getDeviceId() + time
-        } else return detail
+            realm.executeTransaction{
+                val attendance = realm.createObject<Attendance>()
+                attendance.clocking = time.toString()
+                attendance.deviceIMEI = tManager.getDeviceId()
+            }
+            tManager.getDeviceId()
+        }
+        val attendance = realm.where<Attendance>().findFirst()
+        println(attendance?.deviceIMEI + attendance?.clocking)
     }
 
 

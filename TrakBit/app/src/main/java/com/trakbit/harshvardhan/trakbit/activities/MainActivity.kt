@@ -9,6 +9,7 @@ import com.trakbit.harshvardhan.trakbit.R
 import com.trakbit.harshvardhan.trakbit.adapters.ViewPageAdapter
 import com.trakbit.harshvardhan.trakbit.fragments.ClockFragment
 import com.trakbit.harshvardhan.trakbit.fragments.ClockingFragment
+import io.realm.Realm
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Realm.init(this)
         viewPager = findViewById<ViewPager>(R.id.viewpager)
         setupViewPager(viewPager)
         tabLayout = findViewById<TabLayout>(R.id.tabs)
