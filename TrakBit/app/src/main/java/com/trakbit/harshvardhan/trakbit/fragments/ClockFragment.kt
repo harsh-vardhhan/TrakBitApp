@@ -17,6 +17,8 @@ import io.realm.Realm
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
+import org.joda.time.format.DateTimeFormatter
 import kotlin.properties.Delegates
 
 /**
@@ -53,7 +55,7 @@ class ClockFragment: Fragment() {
     }
 
     private fun clockDevice (realm: Realm) {
-        val time  = DateTime.now()
+        val time = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(DateTime.now())
         val tManager: TelephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_PHONE_STATE)  ==
                 PackageManager.PERMISSION_GRANTED) {
@@ -64,8 +66,10 @@ class ClockFragment: Fragment() {
             }
             tManager.getDeviceId()
         }
-        val attendance = realm.where<Attendance>().findFirst()
-        println(attendance?.deviceIMEI + attendance?.clocking)
+        val attendance = realm.where<Attendance>().findAll()
+        attendance.forEach { it ->
+           println(it.deviceIMEI + it.clocking)
+        }
     }
 
 
