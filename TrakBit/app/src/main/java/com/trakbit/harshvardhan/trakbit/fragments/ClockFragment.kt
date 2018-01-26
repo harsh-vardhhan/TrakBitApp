@@ -27,6 +27,7 @@ class ClockFragment: Fragment() {
     private val PERMISSIONS_REQUEST_READ_PHONE_STATE: Int  = 0;
     private var realm: Realm by Delegates.notNull()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         realm = Realm.getDefaultInstance()
         if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_PHONE_STATE)  !=
@@ -64,6 +65,7 @@ class ClockFragment: Fragment() {
             }
             tManager.getDeviceId()
         }
+
     }
 
 }

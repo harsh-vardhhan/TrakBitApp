@@ -19,6 +19,7 @@ import kotlin.properties.Delegates
 class ClockingFragment: Fragment() {
 
     private var realm: Realm by Delegates.notNull()
+    private var fragmentVisible: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +33,17 @@ class ClockingFragment: Fragment() {
         listView?.adapter = adapter
         adapter?.notifyDataSetChanged()
         return view
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        fragmentVisible = isVisibleToUser;
+        if (fragmentVisible) {
+            val adapter = ClockListAdapter(activity, clockData(realm))
+            val listView = view!!.findViewById<ListView>(R.id.listView)
+            listView?.adapter = adapter
+            adapter?.updateClockList(clockData(realm))
+        }
     }
 
     private fun clockData(realm: Realm): ArrayList<Attendance> {
