@@ -15,10 +15,8 @@ import android.support.v4.content.ContextCompat
 import com.trakbit.harshvardhan.trakbit.models.Attendance
 import io.realm.Realm
 import io.realm.kotlin.createObject
-import io.realm.kotlin.where
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
-import org.joda.time.format.DateTimeFormatter
 import kotlin.properties.Delegates
 
 /**
@@ -66,11 +64,6 @@ class ClockFragment: Fragment() {
             }
             tManager.getDeviceId()
         }
-        val attendance = realm.where<Attendance>().findAll()
-        attendance.forEach { it ->
-           println(it.deviceIMEI + it.clocking)
-        }
     }
-
 
 }
