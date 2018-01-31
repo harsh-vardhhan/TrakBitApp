@@ -9,8 +9,8 @@ import android.support.v4.app.FragmentPagerAdapter
  */
 class ViewPageAdapter: FragmentPagerAdapter {
 
-    private val fragmentList : MutableList<Fragment> = mutableListOf()
-    private val fragmentTitle : MutableList<String> = mutableListOf()
+    private val fragmentList = mutableListOf<Fragment>()
+    private val fragmentTitle = mutableListOf<String>()
 
 
     fun addFragment(fragment: Fragment, title: String) {

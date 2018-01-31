@@ -9,7 +9,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="10dp"
-        android:src="@drawable/ic_access_time"/>
+        android:src="@drawable/ic_access_time" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,13 +23,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Clock"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/txtDevice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Device"/>
+            android:text="Device" />
 
     </LinearLayout>
 </RelativeLayout>

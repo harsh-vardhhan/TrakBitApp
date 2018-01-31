@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupViewPager(viewPager: ViewPager) {
-        var adapter = ViewPageAdapter(supportFragmentManager)
+        val adapter = ViewPageAdapter(supportFragmentManager)
         adapter.addFragment(ClockFragment(), "clock")
         adapter.addFragment(ClockingFragment(), "clockings")
         adapter.addFragment(ClockFragment(), "profile")

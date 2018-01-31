@@ -55,7 +55,7 @@ class ClockFragment: Fragment() {
 
     private fun clockDevice (realm: Realm) {
         val time = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(DateTime.now())
-        val tManager: TelephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        val tManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_PHONE_STATE)  ==
                 PackageManager.PERMISSION_GRANTED) {
             realm.executeTransaction{
@@ -65,7 +65,6 @@ class ClockFragment: Fragment() {
             }
             tManager.getDeviceId()
         }
-
     }
 
 }

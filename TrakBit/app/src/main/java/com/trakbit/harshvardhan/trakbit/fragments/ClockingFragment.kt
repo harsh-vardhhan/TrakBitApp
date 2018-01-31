@@ -2,6 +2,7 @@ package com.trakbit.harshvardhan.trakbit.fragments
 
 import android.support.v4.app.Fragment
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,20 +17,29 @@ import kotlin.properties.Delegates
 /**
  * Created by harshvardhan on 23/01/2018.
  */
-class ClockingFragment: Fragment() {
+class ClockingFragment : Fragment() {
 
     private var realm: Realm by Delegates.notNull()
-    private var fragmentVisible: Boolean = true
+    private var fragmentVisible = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view = inflater!!.inflate(R.layout.clocking_fragment,container,false)
+        val view = inflater!!.inflate(R.layout.clocking_fragment, container, false)
         realm = Realm.getDefaultInstance()
         val adapter = ClockListAdapter(activity, clockData(realm))
         val listView = view!!.findViewById<ListView>(R.id.listView)
+        listView.setOnItemLongClickListener { arg0, arg1, pos, id ->
+            val tabs = activity.findViewById<TabLayout>(R.id.tabs)
+            if (tabs.visibility == View.INVISIBLE) {
+                tabs.visibility = View.VISIBLE
+            } else {
+                tabs.visibility = View.INVISIBLE
+            }
+            true
+        }
         listView?.adapter = adapter
         adapter?.notifyDataSetChanged()
         return view
@@ -37,7 +47,7 @@ class ClockingFragment: Fragment() {
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        fragmentVisible = isVisibleToUser;
+        fragmentVisible = isVisibleToUser
         if (fragmentVisible) {
             val adapter = ClockListAdapter(activity, clockData(realm))
             val listView = view!!.findViewById<ListView>(R.id.listView)
@@ -48,12 +58,12 @@ class ClockingFragment: Fragment() {
 
     private fun clockData(realm: Realm): ArrayList<Attendance> {
         val attendances = realm.where<Attendance>().findAll()
-        val attendanceList: ArrayList<Attendance> = arrayListOf<Attendance>()
-        attendances.forEachIndexed { i,it ->
+        val attendanceList = arrayListOf<Attendance>()
+        attendances.forEachIndexed { i, it ->
             val attendance = Attendance()
             attendance.clocking = it.clocking
             attendance.deviceIMEI = it.deviceIMEI
-            attendanceList.add(i,attendance)
+            attendanceList.add(i, attendance)
         }
         return attendanceList
     }
