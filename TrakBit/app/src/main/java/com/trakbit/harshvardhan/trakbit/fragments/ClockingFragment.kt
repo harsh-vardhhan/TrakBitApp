@@ -1,6 +1,5 @@
 package com.trakbit.harshvardhan.trakbit.fragments
 
-import android.media.Image
 import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
@@ -15,8 +14,6 @@ import com.trakbit.harshvardhan.trakbit.adapters.ClockListAdapter
 import com.trakbit.harshvardhan.trakbit.models.Attendance
 import io.realm.Realm
 import io.realm.kotlin.where
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.clock_fragment.*
 import kotlin.properties.Delegates
 
 /**
