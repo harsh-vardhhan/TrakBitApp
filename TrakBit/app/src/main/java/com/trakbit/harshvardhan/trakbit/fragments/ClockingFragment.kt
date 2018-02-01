@@ -49,12 +49,14 @@ class ClockingFragment : Fragment() {
     private fun toggleHeader() {
         val appBar = activity.findViewById<AppBarLayout>(R.id.appBar)
         val toolbar = activity.findViewById<Toolbar>(R.id.toolBar)
-        if (appBar.visibility == View.INVISIBLE) {
-            appBar.visibility = View.VISIBLE
-            toolbar.visibility = View.INVISIBLE
-        } else if (appBar.visibility == View.VISIBLE) {
-            appBar.visibility = View.INVISIBLE
-            toolbar.visibility = View.VISIBLE
+        val visible = View.VISIBLE
+        val invisible = View.INVISIBLE
+        if (appBar.visibility == invisible) {
+            appBar.visibility = visible
+            toolbar.visibility = invisible
+        } else if (appBar.visibility == visible) {
+            appBar.visibility = invisible
+            toolbar.visibility = visible
         }
     }
 
