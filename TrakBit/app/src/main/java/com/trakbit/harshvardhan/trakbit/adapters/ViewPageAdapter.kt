@@ -4,9 +4,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 
-/**
- * Created by harshvardhan on 19/01/2018.
- */
 class ViewPageAdapter: FragmentPagerAdapter {
 
     private val fragmentList = mutableListOf<Fragment>()

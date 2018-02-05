@@ -8,17 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ListView
 import com.trakbit.harshvardhan.trakbit.R
 import com.trakbit.harshvardhan.trakbit.adapters.ClockListAdapter
 import com.trakbit.harshvardhan.trakbit.models.Attendance
 import io.realm.Realm
 import io.realm.kotlin.where
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.clocking_fragment.view.*
 import kotlin.properties.Delegates
 
-/**
- * Created by harshvardhan on 23/01/2018.
- */
 class ClockingFragment : Fragment() {
 
     private var realm: Realm by Delegates.notNull()
@@ -28,13 +26,13 @@ class ClockingFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        deleteButton = activity.deleteButton
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater!!.inflate(R.layout.clocking_fragment, container, false)
         realm = Realm.getDefaultInstance()
-        deleteButton = activity.findViewById<ImageView>(R.id.deleteButton)
-        val listView = view!!.findViewById<ListView>(R.id.listView)
+        val listView = view!!.listView
         val adapter = ClockListAdapter(activity, clockData(realm))
         listView?.adapter = adapter
         adapter?.notifyDataSetChanged()
@@ -48,20 +46,20 @@ class ClockingFragment : Fragment() {
 
     private fun toggleHeader() {
         val appBar = activity.findViewById<AppBarLayout>(R.id.appBar)
-        val toolbar = activity.findViewById<Toolbar>(R.id.toolBar)
+        val toolBar = activity.findViewById<Toolbar>(R.id.toolBar)
         val visible = View.VISIBLE
         val invisible = View.INVISIBLE
         if (appBar.visibility == invisible) {
             appBar.visibility = visible
-            toolbar.visibility = invisible
+            toolBar?.visibility = invisible
         } else if (appBar.visibility == visible) {
             appBar.visibility = invisible
-            toolbar.visibility = visible
+            toolBar?.visibility = visible
         }
     }
 
     private fun updateList() {
-        val listView = view!!.findViewById<ListView>(R.id.listView)
+        val listView = view!!.listView
         val adapter = ClockListAdapter(activity, clockData(realm))
         listView?.adapter = adapter
         adapter?.notifyDataSetChanged()
@@ -78,7 +76,7 @@ class ClockingFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        deleteButton!!.setOnClickListener {
+        deleteButton?.setOnClickListener {
             deleteClock(position!!)
         }
     }
@@ -87,10 +85,7 @@ class ClockingFragment : Fragment() {
         super.setUserVisibleHint(isVisibleToUser)
         fragmentVisible = isVisibleToUser
         if (fragmentVisible) {
-            val adapter = ClockListAdapter(activity, clockData(realm))
-            val listView = view!!.findViewById<ListView>(R.id.listView)
-            listView?.adapter = adapter
-            adapter?.updateClockList(clockData(realm))
+            updateList()
         }
     }
 

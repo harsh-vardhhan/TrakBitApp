@@ -25,12 +25,6 @@ class ClockListAdapter(private var activity: Activity, private var items: ArrayL
         }
     }
 
-    fun updateClockList(attendances: ArrayList<Attendance>) {
-        items.clear()
-        items.addAll(attendances)
-        this.notifyDataSetChanged()
-    }
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View?
         val viewHolder: ViewHolder

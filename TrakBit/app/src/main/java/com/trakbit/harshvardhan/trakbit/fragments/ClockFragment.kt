@@ -19,12 +19,9 @@ import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import kotlin.properties.Delegates
 
-/**
- * Created by harshvardhan on 19/01/2018.
- */
 class ClockFragment: Fragment() {
 
-    private val PERMISSIONS_REQUEST_READ_PHONE_STATE: Int  = 0;
+    private val PERMISSIONS_REQUEST_READ_PHONE_STATE  = 0;
     private var realm: Realm by Delegates.notNull()
 
 
