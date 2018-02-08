@@ -19,19 +19,20 @@ import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import kotlin.properties.Delegates
 
-class ClockFragment: Fragment() {
 
-    private val PERMISSIONS_REQUEST_READ_PHONE_STATE  = 0;
+class ClockFragment : Fragment() {
+
+    private val PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
     private var realm: Realm by Delegates.notNull()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         realm = Realm.getDefaultInstance()
-        if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_PHONE_STATE)  !=
+        if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_PHONE_STATE) !=
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                     activity,
-                    arrayOf(android.Manifest.permission.READ_PHONE_STATE  ),
+                    arrayOf(android.Manifest.permission.READ_PHONE_STATE),
                     PERMISSIONS_REQUEST_READ_PHONE_STATE);
         }
         super.onCreate(savedInstanceState)
@@ -40,7 +41,7 @@ class ClockFragment: Fragment() {
     override fun onCreateView(inflater: LayoutInflater?,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        return inflater!!.inflate(R.layout.clock_fragment,container,false)
+        return inflater!!.inflate(R.layout.clock_fragment, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -50,17 +51,16 @@ class ClockFragment: Fragment() {
         }
     }
 
-    private fun clockDevice (realm: Realm) {
+    private fun clockDevice(realm: Realm) {
         val time = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(DateTime.now())
         val tManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_PHONE_STATE)  ==
+        if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_PHONE_STATE) ==
                 PackageManager.PERMISSION_GRANTED) {
-            realm.executeTransaction{
+            realm.executeTransaction {
                 val attendance = realm.createObject<Attendance>()
                 attendance.clocking = time.toString()
                 attendance.deviceIMEI = tManager.getDeviceId()
             }
-            tManager.getDeviceId()
         }
     }
 

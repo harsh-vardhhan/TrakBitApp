@@ -10,10 +10,8 @@ import android.widget.TextView
 import com.trakbit.harshvardhan.trakbit.R
 import com.trakbit.harshvardhan.trakbit.models.Attendance
 
-/**
- * Created by harshvardhan on 25/01/2018.
- */
-class ClockListAdapter(private var activity: Activity, private var items: ArrayList<Attendance>): BaseAdapter() {
+
+class ClockListAdapter(private var activity: Activity, private var items: ArrayList<Attendance>) : BaseAdapter() {
 
     private class ViewHolder(row: View?) {
         var txtClock: TextView? = null
@@ -30,7 +28,7 @@ class ClockListAdapter(private var activity: Activity, private var items: ArrayL
         val viewHolder: ViewHolder
         if (convertView == null) {
             val inflater = activity?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            view = inflater.inflate(R.layout.clock_list_rows,null)
+            view = inflater.inflate(R.layout.clock_list_rows, null)
             viewHolder = ViewHolder(view)
             view?.tag = viewHolder
         } else {

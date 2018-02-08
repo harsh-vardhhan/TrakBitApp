@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.clocking_fragment.view.*
 import kotlin.properties.Delegates
 
+
 class ClockingFragment : Fragment() {
 
     private var realm: Realm by Delegates.notNull()
