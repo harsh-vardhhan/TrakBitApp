@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.trakbit.harshvardhan.trakbit.R
 import kotlinx.android.synthetic.main.clock_fragment.*
 import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import com.trakbit.harshvardhan.trakbit.models.Attendance
@@ -24,7 +25,7 @@ class ClockFragment : Fragment() {
 
     private val PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
     private var realm: Realm by Delegates.notNull()
-
+    private var locationManager : LocationManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         realm = Realm.getDefaultInstance()
@@ -36,6 +37,7 @@ class ClockFragment : Fragment() {
                     PERMISSIONS_REQUEST_READ_PHONE_STATE);
         }
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(inflater: LayoutInflater?,
