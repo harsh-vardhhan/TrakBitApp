@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(),
 
         if (ActivityCompat.checkSelfPermission(this, fineLocation) != permissionGranted &&
             ActivityCompat.checkSelfPermission(this, coarseLocation) != permissionGranted) {
-                ActivityCompat.requestPermissions(this, permissions, 200)
+            ActivityCompat.requestPermissions(this, permissions, 200)
         }
         startLocationUpdates()
 
