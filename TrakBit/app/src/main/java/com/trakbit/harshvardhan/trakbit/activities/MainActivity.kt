@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(),
     private val FASTEST_INTERVAL: Long = 2000 /* 2 sec */
     lateinit var mLocation: Location
     lateinit var locationManager: LocationManager
-    
+
     val fineLocation = android.Manifest.permission.ACCESS_FINE_LOCATION
     val coarseLocation = android.Manifest.permission.ACCESS_COARSE_LOCATION
     val permissionGranted = PackageManager.PERMISSION_GRANTED
@@ -67,10 +67,9 @@ class MainActivity : AppCompatActivity(),
 
     override fun onConnected(p0: Bundle?) {
 
-        ActivityCompat.requestPermissions(this, permissions, 200 )
-        if (    ActivityCompat.checkSelfPermission(this, fineLocation) != permissionGranted &&
-                ActivityCompat.checkSelfPermission(this, coarseLocation) != permissionGranted) {
-            return
+        if (ActivityCompat.checkSelfPermission(this, fineLocation) != permissionGranted &&
+            ActivityCompat.checkSelfPermission(this, coarseLocation) != permissionGranted) {
+                ActivityCompat.requestPermissions(this, permissions, 200)
         }
         startLocationUpdates()
 
@@ -83,7 +82,6 @@ class MainActivity : AppCompatActivity(),
                     if (location != null) {
                         // Logic to handle location object
                         mLocation = location;
-
                         println(mLocation.latitude)
                         println(mLocation.longitude)
                     }
