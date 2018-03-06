@@ -38,6 +38,11 @@ class MainActivity : AppCompatActivity(),
     private val FASTEST_INTERVAL: Long = 2000 /* 2 sec */
     lateinit var mLocation: Location
     lateinit var locationManager: LocationManager
+    
+    val fineLocation = android.Manifest.permission.ACCESS_FINE_LOCATION
+    val coarseLocation = android.Manifest.permission.ACCESS_COARSE_LOCATION
+    val permissionGranted = PackageManager.PERMISSION_GRANTED
+    val permissions = arrayOf(fineLocation,coarseLocation)
 
     override fun onStart() {
         super.onStart()
@@ -62,13 +67,9 @@ class MainActivity : AppCompatActivity(),
 
     override fun onConnected(p0: Bundle?) {
 
-        val permissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION,
-                          android.Manifest.permission.ACCESS_COARSE_LOCATION)
-
-
         ActivityCompat.requestPermissions(this, permissions, 200 )
-        if (    ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (    ActivityCompat.checkSelfPermission(this, fineLocation) != permissionGranted &&
+                ActivityCompat.checkSelfPermission(this, coarseLocation) != permissionGranted) {
             return
         }
         startLocationUpdates()
@@ -167,12 +168,8 @@ class MainActivity : AppCompatActivity(),
                 .setInterval(UPDATE_INTERVAL)
                 .setFastestInterval(FASTEST_INTERVAL)
         // Request location updates
-        if (ActivityCompat.checkSelfPermission(
-                        this,
-                        android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(
-                        this,
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, fineLocation) != permissionGranted &&
+            ActivityCompat.checkSelfPermission(this, coarseLocation) != permissionGranted) {
             return
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
