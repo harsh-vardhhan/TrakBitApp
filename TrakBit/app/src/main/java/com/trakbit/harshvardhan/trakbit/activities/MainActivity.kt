@@ -26,7 +26,7 @@ import com.trakbit.harshvardhan.trakbit.fragments.ClockingFragment
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(),
+open class MainActivity : AppCompatActivity(),
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         com.google.android.gms.location.LocationListener {
@@ -39,10 +39,11 @@ class MainActivity : AppCompatActivity(),
     lateinit var mLocation: Location
     lateinit var locationManager: LocationManager
 
+
     val fineLocation = android.Manifest.permission.ACCESS_FINE_LOCATION
     val coarseLocation = android.Manifest.permission.ACCESS_COARSE_LOCATION
     val permissionGranted = PackageManager.PERMISSION_GRANTED
-    val permissions = arrayOf(fineLocation,coarseLocation)
+    val permissions = arrayOf(fineLocation, coarseLocation)
 
     override fun onStart() {
         super.onStart()
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onStop() {
         super.onStop();
-        if (mGoogleApiClient.isConnected()) {
+        if (mGoogleApiClient.isConnected) {
             mGoogleApiClient.disconnect()
         }
     }
@@ -66,9 +67,8 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onConnected(p0: Bundle?) {
-
         if (ActivityCompat.checkSelfPermission(this, fineLocation) != permissionGranted &&
-            ActivityCompat.checkSelfPermission(this, coarseLocation) != permissionGranted) {
+                ActivityCompat.checkSelfPermission(this, coarseLocation) != permissionGranted) {
             ActivityCompat.requestPermissions(this, permissions, 200)
         }
         startLocationUpdates()
@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity(),
         checkLocation()
     }
 
-    private fun setupTabIcons () {
+    private fun setupTabIcons() {
         tabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_access_time_white)
         tabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_list_white)
         tabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_account_circle)
@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun checkLocation(): Boolean {
-        if(!isLocationEnabled())
+        if (!isLocationEnabled())
             showAlert()
         return isLocationEnabled()
     }
@@ -148,29 +148,30 @@ class MainActivity : AppCompatActivity(),
 
     private fun showAlert() {
         val dialog = AlertDialog.Builder(this)
-        dialog.setTitle("Enable Location")
+        dialog
+                .setTitle("Enable Location")
                 .setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " + "use this app")
                 .setPositiveButton("Location Settings", { _, _ ->
-            val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            startActivity(myIntent)
-        })
+                    val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    startActivity(myIntent)
+                })
                 .setNegativeButton("Cancel", { _, _ -> })
         dialog.show()
     }
 
     protected fun startLocationUpdates() {
-
-        // Create the location request
-        mLocationRequest = LocationRequest.create()
+        mLocationRequest = LocationRequest
+                .create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(UPDATE_INTERVAL)
                 .setFastestInterval(FASTEST_INTERVAL)
-        // Request location updates
+
         if (ActivityCompat.checkSelfPermission(this, fineLocation) != permissionGranted &&
-            ActivityCompat.checkSelfPermission(this, coarseLocation) != permissionGranted) {
+                ActivityCompat.checkSelfPermission(this, coarseLocation) != permissionGranted) {
             return
         }
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient,
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient,
                 mLocationRequest, this);
     }
 

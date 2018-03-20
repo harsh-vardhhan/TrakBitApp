@@ -23,21 +23,20 @@ import kotlin.properties.Delegates
 
 class ClockFragment : Fragment() {
 
-    private val PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
+    private val PERMISSIONS_REQUEST_READ_PHONE_STATE = 0
     private var realm: Realm by Delegates.notNull()
-    private var locationManager : LocationManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         realm = Realm.getDefaultInstance()
-        if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_PHONE_STATE) !=
+        if (ContextCompat.checkSelfPermission(context,
+                android.Manifest.permission.READ_PHONE_STATE) !=
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                     activity,
                     arrayOf(android.Manifest.permission.READ_PHONE_STATE),
-                    PERMISSIONS_REQUEST_READ_PHONE_STATE);
+                    PERMISSIONS_REQUEST_READ_PHONE_STATE)
         }
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(inflater: LayoutInflater?,
@@ -54,7 +53,9 @@ class ClockFragment : Fragment() {
     }
 
     private fun clockDevice(realm: Realm) {
-        val time = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(DateTime.now())
+        val time = DateTimeFormat
+                .forPattern("MM/dd/yyyy HH:mm:ss")
+                .print(DateTime.now())
         val tManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_PHONE_STATE) ==
                 PackageManager.PERMISSION_GRANTED) {
