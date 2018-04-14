@@ -25,16 +25,20 @@ class ClockFragment : Fragment() {
 
     private val PERMISSIONS_REQUEST_READ_PHONE_STATE = 0
     private var realm: Realm by Delegates.notNull()
+    private val readPhoneState = android.Manifest.permission.READ_PHONE_STATE
+    private val permissionGranted = PackageManager.PERMISSION_GRANTED
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if(arguments != null) {
+            println(arguments.getDouble("latitude"))
+        }
         realm = Realm.getDefaultInstance()
-        if (ContextCompat.checkSelfPermission(context,
-                android.Manifest.permission.READ_PHONE_STATE) !=
-                PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(context, readPhoneState) != permissionGranted) {
             ActivityCompat.requestPermissions(
                     activity,
-                    arrayOf(android.Manifest.permission.READ_PHONE_STATE),
-                    PERMISSIONS_REQUEST_READ_PHONE_STATE)
+                    arrayOf(readPhoneState),
+                    PERMISSIONS_REQUEST_READ_PHONE_STATE
+            )
         }
         super.onCreate(savedInstanceState)
     }
@@ -53,18 +57,24 @@ class ClockFragment : Fragment() {
     }
 
     private fun clockDevice(realm: Realm) {
+        if(arguments != null) {
+            println(arguments.getDouble("latitude"))
+        }
         val time = DateTimeFormat
                 .forPattern("MM/dd/yyyy HH:mm:ss")
                 .print(DateTime.now())
         val tManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_PHONE_STATE) ==
-                PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(context, readPhoneState) == permissionGranted) {
             realm.executeTransaction {
                 val attendance = realm.createObject<Attendance>()
                 attendance.clocking = time.toString()
                 attendance.deviceIMEI = tManager.getDeviceId()
             }
         }
+    }
+
+    fun putArguments(bundle: Bundle) {
+        println(bundle.getDouble("latitude"))
     }
 
 }

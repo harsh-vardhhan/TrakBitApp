@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.clocking_fragment.view.*
 import kotlin.properties.Delegates
 
 
-class ClockingFragment : Fragment() {
+class ClockListFragment : Fragment() {
 
     private var realm: Realm by Delegates.notNull()
     private var fragmentVisible = true

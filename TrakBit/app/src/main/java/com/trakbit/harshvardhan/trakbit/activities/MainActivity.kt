@@ -22,7 +22,7 @@ import com.google.android.gms.location.LocationServices
 import com.trakbit.harshvardhan.trakbit.R
 import com.trakbit.harshvardhan.trakbit.adapters.ViewPageAdapter
 import com.trakbit.harshvardhan.trakbit.fragments.ClockFragment
-import com.trakbit.harshvardhan.trakbit.fragments.ClockingFragment
+import com.trakbit.harshvardhan.trakbit.fragments.ClockListFragment
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -50,6 +50,7 @@ open class MainActivity : AppCompatActivity(),
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect()
         }
+
     }
 
     override fun onStop() {
@@ -66,11 +67,17 @@ open class MainActivity : AppCompatActivity(),
     override fun onConnectionFailed(connectionResult: ConnectionResult) {
     }
 
-    override fun onConnected(p0: Bundle?) {
+    override fun onConnected(bundle: Bundle?) {
         if (ActivityCompat.checkSelfPermission(this, fineLocation) != permissionGranted &&
                 ActivityCompat.checkSelfPermission(this, coarseLocation) != permissionGranted) {
             ActivityCompat.requestPermissions(this, permissions, 200)
         }
+
+        //bundle?.putDouble("latitude", latitude)
+        //val clockFragment = ClockFragment()
+        //clockFragment.arguments = bundle
+
+
         startLocationUpdates()
 
         var fusedLocationProviderClient :
@@ -82,15 +89,15 @@ open class MainActivity : AppCompatActivity(),
                     if (location != null) {
                         // Logic to handle location object
                         mLocation = location;
-                        println(mLocation.latitude)
-                        println(mLocation.longitude)
                     }
                 })
     }
 
     override fun onLocationChanged(location: Location?) {
-        println(location!!.latitude)
-        println(location!!.longitude)
+        val bundle = Bundle()
+        bundle.putDouble("latitude",location!!.latitude)
+        val clockFragment = ClockFragment()
+        clockFragment.putArguments(bundle)
     }
 
     private lateinit var tabLayout: TabLayout
@@ -129,7 +136,7 @@ open class MainActivity : AppCompatActivity(),
     private fun setupViewPager(viewPager: ViewPager) {
         val adapter = ViewPageAdapter(supportFragmentManager)
         adapter.addFragment(ClockFragment(), "clock")
-        adapter.addFragment(ClockingFragment(), "clockings")
+        adapter.addFragment(ClockListFragment(), "clockings")
         adapter.addFragment(ClockFragment(), "profile")
         viewPager.adapter = adapter
     }
