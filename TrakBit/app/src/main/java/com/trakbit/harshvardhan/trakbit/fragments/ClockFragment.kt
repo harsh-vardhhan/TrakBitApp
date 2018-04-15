@@ -59,8 +59,8 @@ class ClockFragment : Fragment() {
     }
 
     private fun clockDevice(realm: Realm) {
-        if(realm.where<Location>(Location::class.java).count() != 0L) {
-            val location: Location? = realm.where<Location>(Location::class.java)?.findAll()?.last()
+        if(realm.where<Location>().count() != 0L) {
+            val location = realm.where<Location>()?.findAll()?.last()
             val time = DateTimeFormat
                     .forPattern("MM/dd/yyyy HH:mm:ss")
                     .print(DateTime.now())
