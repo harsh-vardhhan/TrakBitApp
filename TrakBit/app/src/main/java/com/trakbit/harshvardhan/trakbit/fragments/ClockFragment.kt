@@ -31,9 +31,6 @@ class ClockFragment : Fragment() {
     private val permissionGranted = PackageManager.PERMISSION_GRANTED
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if(arguments != null) {
-            println(arguments.getDouble("latitude"))
-        }
         realm = Realm.getDefaultInstance()
         if (ContextCompat.checkSelfPermission(context, readPhoneState) != permissionGranted) {
             ActivityCompat.requestPermissions(

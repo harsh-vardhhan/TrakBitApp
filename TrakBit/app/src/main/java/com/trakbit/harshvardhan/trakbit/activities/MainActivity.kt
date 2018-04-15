@@ -74,14 +74,11 @@ open class MainActivity : AppCompatActivity(),
         }
         startLocationUpdates()
 
-        var fusedLocationProviderClient :
-                FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        var fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fusedLocationProviderClient
                 .lastLocation
                 .addOnSuccessListener(this, { location ->
-                    // Got last known location. In some rare situations this can be null.
                     if (location != null) {
-                        // Logic to handle location object
                         mLocation = location;
                     }
                 })
