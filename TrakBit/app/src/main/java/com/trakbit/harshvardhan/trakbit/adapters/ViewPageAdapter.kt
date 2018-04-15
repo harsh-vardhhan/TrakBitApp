@@ -11,16 +11,16 @@ class ViewPageAdapter: FragmentPagerAdapter {
 
 
     fun addFragment(fragment: Fragment, title: String) {
-        fragmentList.add(fragment)
-        fragmentTitle.add(title)
+        fragmentList += fragment
+        fragmentTitle += title
     }
 
     override fun getItem(position: Int): Fragment {
-        return fragmentList.get(position)
+        return fragmentList[position]
     }
 
     override fun getPageTitle(position: Int): String {
-        return fragmentTitle.get(position)
+        return fragmentTitle[position]
     }
 
     override fun getCount(): Int {
