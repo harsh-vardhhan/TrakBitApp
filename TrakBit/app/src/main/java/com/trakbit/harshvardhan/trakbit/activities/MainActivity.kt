@@ -72,12 +72,6 @@ open class MainActivity : AppCompatActivity(),
                 ActivityCompat.checkSelfPermission(this, coarseLocation) != permissionGranted) {
             ActivityCompat.requestPermissions(this, permissions, 200)
         }
-
-        //bundle?.putDouble("latitude", latitude)
-        //val clockFragment = ClockFragment()
-        //clockFragment.arguments = bundle
-
-
         startLocationUpdates()
 
         var fusedLocationProviderClient :
@@ -96,6 +90,7 @@ open class MainActivity : AppCompatActivity(),
     override fun onLocationChanged(location: Location?) {
         val bundle = Bundle()
         bundle.putDouble("latitude",location!!.latitude)
+        bundle.putDouble("longitude",location!!.longitude)
         val clockFragment = ClockFragment()
         clockFragment.putArguments(bundle)
     }

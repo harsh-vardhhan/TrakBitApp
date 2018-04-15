@@ -97,6 +97,8 @@ class ClockListFragment : Fragment() {
             val attendance = Attendance()
             attendance.clocking = it.clocking
             attendance.deviceIMEI = it.deviceIMEI
+            attendance.latitude = it.latitude
+            attendance.longitude = it.longitude
             attendanceList.add(i, attendance)
         }
         return attendanceList

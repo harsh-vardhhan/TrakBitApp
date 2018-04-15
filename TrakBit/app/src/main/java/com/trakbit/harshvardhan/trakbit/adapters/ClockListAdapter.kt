@@ -16,10 +16,14 @@ class ClockListAdapter(private var activity: Activity, private var items: ArrayL
     private class ViewHolder(row: View?) {
         var txtClock: TextView? = null
         var txtDevice: TextView? = null
+        var txtLatitude: TextView? = null
+        var txtLongitude: TextView? = null
 
         init {
-            this.txtClock = row?.findViewById<TextView>(R.id.txtClock)
-            this.txtDevice = row?.findViewById<TextView>(R.id.txtDevice)
+            this.txtClock = row?.findViewById(R.id.txtClock)
+            this.txtDevice = row?.findViewById(R.id.txtDevice)
+            this.txtLatitude = row?.findViewById(R.id.txtLatitude)
+            this.txtLongitude = row?.findViewById(R.id.txtLongitude)
         }
     }
 
@@ -38,6 +42,8 @@ class ClockListAdapter(private var activity: Activity, private var items: ArrayL
         val attendance = items[position]
         viewHolder.txtClock?.text = attendance.clocking
         viewHolder.txtDevice?.text = attendance.deviceIMEI
+        viewHolder.txtLatitude?.text = attendance.latitude
+        viewHolder.txtLongitude?.text = attendance.longitude
         return view as View
     }
 

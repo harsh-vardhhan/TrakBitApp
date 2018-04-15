@@ -14,8 +14,10 @@ import android.location.LocationManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import com.trakbit.harshvardhan.trakbit.models.Attendance
+import com.trakbit.harshvardhan.trakbit.models.Location
 import io.realm.Realm
 import io.realm.kotlin.createObject
+import io.realm.kotlin.where
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import kotlin.properties.Delegates
@@ -57,24 +59,31 @@ class ClockFragment : Fragment() {
     }
 
     private fun clockDevice(realm: Realm) {
-        if(arguments != null) {
-            println(arguments.getDouble("latitude"))
-        }
-        val time = DateTimeFormat
-                .forPattern("MM/dd/yyyy HH:mm:ss")
-                .print(DateTime.now())
-        val tManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        if (ContextCompat.checkSelfPermission(context, readPhoneState) == permissionGranted) {
-            realm.executeTransaction {
-                val attendance = realm.createObject<Attendance>()
-                attendance.clocking = time.toString()
-                attendance.deviceIMEI = tManager.getDeviceId()
+        if(realm.where<Location>(Location::class.java).count() != 0L) {
+            val location: Location? = realm.where<Location>(Location::class.java)?.findAll()?.last()
+            val time = DateTimeFormat
+                    .forPattern("MM/dd/yyyy HH:mm:ss")
+                    .print(DateTime.now())
+            val tManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            if (ContextCompat.checkSelfPermission(context, readPhoneState) == permissionGranted) {
+                realm.executeTransaction {
+                    val attendance = realm.createObject<Attendance>()
+                    attendance.latitude = location?.latitude.toString()
+                    attendance.longitude = location?.longitude.toString()
+                    attendance.clocking = time.toString()
+                    attendance.deviceIMEI = tManager.getDeviceId()
+                }
             }
         }
     }
 
     fun putArguments(bundle: Bundle) {
-        println(bundle.getDouble("latitude"))
+        realm = Realm.getDefaultInstance()
+        realm.executeTransaction{
+            val location = realm.createObject<Location>()
+            location.latitude = bundle.getDouble("latitude").toString()
+            location.longitude = bundle.getDouble("longitude").toString()
+        }
     }
 
 }
