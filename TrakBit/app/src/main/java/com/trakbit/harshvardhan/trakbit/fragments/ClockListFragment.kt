@@ -14,6 +14,7 @@ import com.trakbit.harshvardhan.trakbit.models.Attendance
 import io.realm.Realm
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.clock_list_rows.*
 import kotlinx.android.synthetic.main.clocking_fragment.view.*
 import kotlin.properties.Delegates
 
@@ -42,7 +43,17 @@ class ClockListFragment : Fragment() {
             toggleHeader()
             true
         }
+        listView.setOnItemClickListener {parent, _, i, _ ->
+            println(parent.getItemAtPosition(i))
+        }
         return view
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        deleteButton?.setOnClickListener {
+            deleteClock(position!!)
+        }
     }
 
     private fun toggleHeader() {
@@ -75,12 +86,6 @@ class ClockListFragment : Fragment() {
         updateList()
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        deleteButton?.setOnClickListener {
-            deleteClock(position!!)
-        }
-    }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
