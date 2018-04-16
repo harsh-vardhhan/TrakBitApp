@@ -16,7 +16,6 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.trakbit.harshvardhan.trakbit.R
@@ -77,9 +76,9 @@ open class MainActivity : AppCompatActivity(),
         var fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fusedLocationProviderClient
                 .lastLocation
-                .addOnSuccessListener(this, { location ->
-                    if (location != null) {
-                        mLocation = location;
+                .addOnSuccessListener(this, {
+                    if (it != null) {
+                        mLocation = it;
                     }
                 })
     }
@@ -151,8 +150,8 @@ open class MainActivity : AppCompatActivity(),
                 .setTitle("Enable Location")
                 .setMessage("Your Locations Settings is set to 'Off'.\nPlease Enable Location to " + "use this app")
                 .setPositiveButton("Location Settings", { _, _ ->
-                    val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                    startActivity(myIntent)
+                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    startActivity(intent)
                 })
                 .setNegativeButton("Cancel", { _, _ -> })
         dialog.show()
