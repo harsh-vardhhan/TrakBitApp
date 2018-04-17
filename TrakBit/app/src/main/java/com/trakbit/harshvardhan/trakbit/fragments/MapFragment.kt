@@ -13,7 +13,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.MapView
-
+import com.trakbit.harshvardhan.trakbit.models.Attendance
+import io.realm.Realm
+import io.realm.kotlin.where
+import kotlin.properties.Delegates
 
 
 class MapFragment : Fragment() {
@@ -21,6 +24,12 @@ class MapFragment : Fragment() {
 
     lateinit var mMapView: MapView
     private var googleMap: GoogleMap? = null
+    private var realm: Realm by Delegates.notNull()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        realm = Realm.getDefaultInstance()
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater!!.inflate(R.layout.map_fragment, container, false)
@@ -39,14 +48,16 @@ class MapFragment : Fragment() {
         mMapView.getMapAsync { mMap ->
             googleMap = mMap
 
-            // For showing a move to my location button
-            //googleMap!!.isMyLocationEnabled = true
+            val attendances = realm.where<Attendance>().findAll()
+            attendances.forEachIndexed { i, it ->
+                val location = LatLng((it.latitude)!!.toDouble(),(it.longitude)!!.toDouble())
+                googleMap!!.addMarker(MarkerOptions().position(location).title("Marker Title").snippet("Marker Description"))
+            }
 
-            // For dropping a marker at a point on the Map
-            val sydney = LatLng(-34.0, 151.0)
-            googleMap!!.addMarker(MarkerOptions().position(sydney).title("Marker Title").snippet("Marker Description"))
-            // For zooming automatically to the location of the marker
-            val cameraPosition = CameraPosition.Builder().target(sydney).zoom(12f).build()
+            val firstLocation = LatLng(
+                    (attendances.first()?.latitude)!!.toDouble(),
+                    (attendances.first()?.longitude)!!.toDouble())
+            val cameraPosition = CameraPosition.Builder().target(firstLocation).zoom(12f).build()
             googleMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
         }
 
