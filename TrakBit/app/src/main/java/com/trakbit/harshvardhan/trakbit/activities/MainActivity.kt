@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
-import android.net.Uri
 import android.provider.Settings
 import android.os.Bundle
 import android.support.design.widget.TabLayout
@@ -23,6 +22,7 @@ import com.trakbit.harshvardhan.trakbit.R
 import com.trakbit.harshvardhan.trakbit.adapters.ViewPageAdapter
 import com.trakbit.harshvardhan.trakbit.fragments.ClockFragment
 import com.trakbit.harshvardhan.trakbit.fragments.ClockListFragment
+import com.trakbit.harshvardhan.trakbit.fragments.MapFragment
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -50,7 +50,6 @@ open class MainActivity : AppCompatActivity(),
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect()
         }
-
     }
 
     override fun onStop() {
@@ -122,14 +121,14 @@ open class MainActivity : AppCompatActivity(),
     private fun setupTabIcons() {
         tabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_access_time_white)
         tabLayout.getTabAt(1)!!.setIcon(R.drawable.ic_list_white)
-        tabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_account_circle)
+        tabLayout.getTabAt(2)!!.setIcon(R.drawable.ic_map_white_24px)
     }
 
     private fun setupViewPager(viewPager: ViewPager) {
         val adapter = ViewPageAdapter(supportFragmentManager)
         adapter.addFragment(ClockFragment(), "clock")
         adapter.addFragment(ClockListFragment(), "clockings")
-        adapter.addFragment(ClockFragment(), "profile")
+        adapter.addFragment(MapFragment(), "map")
         viewPager.adapter = adapter
     }
 
