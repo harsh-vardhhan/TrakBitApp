@@ -14,17 +14,15 @@ import com.trakbit.harshvardhan.trakbit.models.Attendance
 import io.realm.Realm
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.clock_list_rows.*
 import kotlinx.android.synthetic.main.clocking_fragment.view.*
 import kotlin.properties.Delegates
 
-
 class ClockListFragment : Fragment() {
-
     private var realm: Realm by Delegates.notNull()
     private var fragmentVisible = true
     private var deleteButton: ImageView? = null
     private var position: Int? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,13 +36,11 @@ class ClockListFragment : Fragment() {
         val adapter = ClockListAdapter(activity, clockData(realm))
         listView?.adapter = adapter
         adapter?.notifyDataSetChanged()
+
         listView.setOnItemLongClickListener { _, _, pos, _ ->
             position = pos
             toggleHeader()
             true
-        }
-        listView.setOnItemClickListener {parent, _, i, _ ->
-            println(parent.getItemAtPosition(i))
         }
         return view
     }
