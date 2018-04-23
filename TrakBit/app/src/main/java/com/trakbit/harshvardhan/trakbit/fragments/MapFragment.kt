@@ -21,7 +21,6 @@ import kotlin.properties.Delegates
 
 class MapFragment : Fragment() {
 
-
     lateinit var mMapView: MapView
     private var googleMap: GoogleMap? = null
     private var realm: Realm by Delegates.notNull()
@@ -37,7 +36,7 @@ class MapFragment : Fragment() {
         mMapView = rootView.findViewById(R.id.mapView)
         mMapView.onCreate(savedInstanceState)
 
-        mMapView.onResume() // needed to get the map to display immediately
+        mMapView.onResume()
 
         try {
             MapsInitializer.initialize(activity.applicationContext)
@@ -51,14 +50,17 @@ class MapFragment : Fragment() {
             val attendances = realm.where<Attendance>().findAll()
             attendances.forEachIndexed { i, it ->
                 val location = LatLng((it.latitude)!!.toDouble(),(it.longitude)!!.toDouble())
-                googleMap!!.addMarker(MarkerOptions().position(location).title("Marker Title").snippet("Marker Description"))
+                googleMap!!.addMarker(MarkerOptions().position(location))
             }
 
-            val firstLocation = LatLng(
-                    (attendances.first()?.latitude)!!.toDouble(),
-                    (attendances.first()?.longitude)!!.toDouble())
-            val cameraPosition = CameraPosition.Builder().target(firstLocation).zoom(12f).build()
-            googleMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+            if (attendances.size > 0) {
+                val firstLocation = LatLng(
+                        (attendances.first()?.latitude)!!.toDouble(),
+                        (attendances.first()?.longitude)!!.toDouble())
+                val cameraPosition = CameraPosition.Builder().target(firstLocation).zoom(12f).build()
+                googleMap!!.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+            }
+
         }
 
         return rootView

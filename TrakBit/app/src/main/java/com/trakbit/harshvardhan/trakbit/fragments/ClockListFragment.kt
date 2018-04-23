@@ -12,6 +12,7 @@ import com.trakbit.harshvardhan.trakbit.R
 import com.trakbit.harshvardhan.trakbit.adapters.ClockListAdapter
 import com.trakbit.harshvardhan.trakbit.models.Attendance
 import io.realm.Realm
+import io.realm.SyncConfiguration
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.clocking_fragment.view.*
@@ -31,6 +32,7 @@ class ClockListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater!!.inflate(R.layout.clocking_fragment, container, false)
+        Realm.setDefaultConfiguration(SyncConfiguration.automatic());
         realm = Realm.getDefaultInstance()
         val listView = view!!.listView
         val adapter = ClockListAdapter(activity, clockData(realm))
@@ -92,7 +94,7 @@ class ClockListFragment : Fragment() {
     }
 
     private fun clockData(realm: Realm): ArrayList<Attendance> {
-        val attendances = realm.where<Attendance>().findAll()
+        val attendances = realm.where<Attendance>().findAllAsync()
         val attendanceList = arrayListOf<Attendance>()
         attendances.forEachIndexed { i, it ->
             val attendance = Attendance()

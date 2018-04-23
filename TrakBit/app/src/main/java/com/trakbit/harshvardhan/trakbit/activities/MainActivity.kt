@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.View
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
@@ -23,8 +24,14 @@ import com.trakbit.harshvardhan.trakbit.adapters.ViewPageAdapter
 import com.trakbit.harshvardhan.trakbit.fragments.ClockFragment
 import com.trakbit.harshvardhan.trakbit.fragments.ClockListFragment
 import com.trakbit.harshvardhan.trakbit.fragments.MapFragment
+import com.trakbit.harshvardhan.trakbit.ui.Constants
+import io.realm.ObjectServerError
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
+import io.realm.SyncCredentials.nickname
+import io.realm.SyncCredentials
+import io.realm.SyncUser
+
 
 open class MainActivity : AppCompatActivity(),
         GoogleApiClient.ConnectionCallbacks,
@@ -38,6 +45,10 @@ open class MainActivity : AppCompatActivity(),
     private val FASTEST_INTERVAL: Long = 2000 /* 2 sec */
     lateinit var mLocation: Location
     lateinit var locationManager: LocationManager
+
+    private val realm: Realm? = null
+
+    var credentials = SyncCredentials.nickname("nickname", false)
 
 
     val fineLocation = android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -116,6 +127,22 @@ open class MainActivity : AppCompatActivity(),
 
         mLocationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         checkLocation()
+
+        val constants = Constants()
+
+        SyncUser.logInAsync(credentials, constants.AUTH_URL, object: SyncUser.Callback<SyncUser> {
+            override fun onSuccess(user:SyncUser) {
+                println("success")
+            }
+            override fun onError(error: ObjectServerError) {
+                println("fail")
+            }
+        })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        realm?.close()
     }
 
     private fun setupTabIcons() {

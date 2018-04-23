@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat
 import com.trakbit.harshvardhan.trakbit.models.Attendance
 import com.trakbit.harshvardhan.trakbit.models.Location
 import io.realm.Realm
+import io.realm.SyncConfiguration
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import org.joda.time.DateTime
@@ -30,6 +31,7 @@ class ClockFragment : Fragment() {
     private val permissionGranted = PackageManager.PERMISSION_GRANTED
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Realm.setDefaultConfiguration(SyncConfiguration.automatic());
         realm = Realm.getDefaultInstance()
         if (ContextCompat.checkSelfPermission(context, readPhoneState) != permissionGranted) {
             ActivityCompat.requestPermissions(
@@ -50,13 +52,15 @@ class ClockFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         clockButton.setOnClickListener {
-            clockDevice(realm)
+            clockDevice()
         }
     }
 
-    private fun clockDevice(realm: Realm) {
+    private fun clockDevice() {
+        Realm.setDefaultConfiguration(SyncConfiguration.automatic());
+        realm = Realm.getDefaultInstance()
         if(realm.where<Location>().count() != 0L) {
-            val location = realm.where<Location>()?.findAll()?.last()
+            val location = realm.where<Location>()?.findAllAsync()?.last()
             val time = DateTimeFormat
                     .forPattern("MM/dd/yyyy HH:mm:ss")
                     .print(DateTime.now())
@@ -74,6 +78,7 @@ class ClockFragment : Fragment() {
     }
 
     fun putArguments(bundle: Bundle) {
+        Realm.setDefaultConfiguration(SyncConfiguration.automatic());
         realm = Realm.getDefaultInstance()
         realm.executeTransaction{
             val location = realm.createObject<Location>()
