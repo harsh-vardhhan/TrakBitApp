@@ -13,7 +13,6 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.View
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
@@ -25,12 +24,10 @@ import com.trakbit.harshvardhan.trakbit.fragments.ClockFragment
 import com.trakbit.harshvardhan.trakbit.fragments.ClockListFragment
 import com.trakbit.harshvardhan.trakbit.fragments.MapFragment
 import com.trakbit.harshvardhan.trakbit.ui.Constants
-import io.realm.ObjectServerError
-import io.realm.Realm
+import io.realm.*
 import kotlinx.android.synthetic.main.activity_main.*
-import io.realm.SyncCredentials.nickname
-import io.realm.SyncCredentials
-import io.realm.SyncUser
+
+
 
 
 open class MainActivity : AppCompatActivity(),
@@ -129,7 +126,6 @@ open class MainActivity : AppCompatActivity(),
         checkLocation()
 
         val constants = Constants()
-
         SyncUser.logInAsync(credentials, constants.AUTH_URL, object: SyncUser.Callback<SyncUser> {
             override fun onSuccess(user:SyncUser) {
                 println("success")

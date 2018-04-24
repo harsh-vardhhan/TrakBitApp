@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat
 import com.trakbit.harshvardhan.trakbit.models.Attendance
 import com.trakbit.harshvardhan.trakbit.models.Location
 import io.realm.Realm
+import io.realm.RealmConfiguration
 import io.realm.SyncConfiguration
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
@@ -30,9 +31,15 @@ class ClockFragment : Fragment() {
     private val readPhoneState = android.Manifest.permission.READ_PHONE_STATE
     private val permissionGranted = PackageManager.PERMISSION_GRANTED
 
+    val config  = RealmConfiguration
+            .Builder()
+            .deleteRealmIfMigrationNeeded()
+            .build()!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         Realm.setDefaultConfiguration(SyncConfiguration.automatic());
         realm = Realm.getDefaultInstance()
+
         if (ContextCompat.checkSelfPermission(context, readPhoneState) != permissionGranted) {
             ActivityCompat.requestPermissions(
                     activity,
