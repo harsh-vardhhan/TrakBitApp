@@ -31,11 +31,6 @@ class ClockFragment : Fragment() {
     private val readPhoneState = android.Manifest.permission.READ_PHONE_STATE
     private val permissionGranted = PackageManager.PERMISSION_GRANTED
 
-    val config  = RealmConfiguration
-            .Builder()
-            .deleteRealmIfMigrationNeeded()
-            .build()!!
-
     override fun onCreate(savedInstanceState: Bundle?) {
         Realm.setDefaultConfiguration(SyncConfiguration.automatic());
         realm = Realm.getDefaultInstance()
@@ -69,7 +64,7 @@ class ClockFragment : Fragment() {
         if(realm.where<Location>().count() != 0L) {
             val location = realm.where<Location>()?.findAllAsync()?.last()
             val time = DateTimeFormat
-                    .forPattern("MM/dd/yyyy HH:mm:ss")
+                    .forPattern("yyyy-mm-dd'T'HH:mm:ssZZ")
                     .print(DateTime.now())
             val tManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
             if (ContextCompat.checkSelfPermission(context, readPhoneState) == permissionGranted) {
