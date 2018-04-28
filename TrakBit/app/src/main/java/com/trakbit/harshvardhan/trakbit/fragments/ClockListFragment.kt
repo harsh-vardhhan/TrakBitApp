@@ -32,7 +32,7 @@ class ClockListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater!!.inflate(R.layout.clocking_fragment, container, false)
-        Realm.setDefaultConfiguration(SyncConfiguration.automatic());
+        //Realm.setDefaultConfiguration(SyncConfiguration.automatic());
         realm = Realm.getDefaultInstance()
         val listView = view!!.listView
         val adapter = ClockListAdapter(activity, clockData(realm))

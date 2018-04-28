@@ -1,6 +1,7 @@
 package com.trakbit.harshvardhan.trakbit.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.telephony.TelephonyManager
@@ -12,11 +13,11 @@ import kotlinx.android.synthetic.main.clock_fragment.*
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import com.trakbit.harshvardhan.trakbit.activities.LoginActivity
 import com.trakbit.harshvardhan.trakbit.models.Attendance
 import com.trakbit.harshvardhan.trakbit.models.Location
 import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.SyncConfiguration
+import io.realm.SyncUser
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import org.joda.time.DateTime
@@ -32,9 +33,6 @@ class ClockFragment : Fragment() {
     private val permissionGranted = PackageManager.PERMISSION_GRANTED
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Realm.setDefaultConfiguration(SyncConfiguration.automatic());
-        realm = Realm.getDefaultInstance()
-
         if (ContextCompat.checkSelfPermission(context, readPhoneState) != permissionGranted) {
             ActivityCompat.requestPermissions(
                     activity,
@@ -56,10 +54,17 @@ class ClockFragment : Fragment() {
         clockButton.setOnClickListener {
             clockDevice()
         }
+        logoutButton.setOnClickListener {
+            val users  = SyncUser.all()
+            users.forEach {
+                it.value.logOut()
+            }
+            val intent = Intent(activity,LoginActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun clockDevice() {
-        Realm.setDefaultConfiguration(SyncConfiguration.automatic());
         realm = Realm.getDefaultInstance()
         if(realm.where<Location>().count() != 0L) {
             val location = realm.where<Location>()?.findAllAsync()?.last()
@@ -80,7 +85,6 @@ class ClockFragment : Fragment() {
     }
 
     fun putArguments(bundle: Bundle) {
-        Realm.setDefaultConfiguration(SyncConfiguration.automatic());
         realm = Realm.getDefaultInstance()
         realm.executeTransaction{
             val location = realm.createObject<Location>()

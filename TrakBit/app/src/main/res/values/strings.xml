@@ -4,9 +4,24 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="clock">Clock</string>
+    <string name="logout">Logout</string>
     <string name="clocking">clocking:</string>
     <string name="latitude">Latitude:</string>
     <string name="longitude">Longitude:</string>
     <string name="deviceId">Device ID:</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
 </resources>

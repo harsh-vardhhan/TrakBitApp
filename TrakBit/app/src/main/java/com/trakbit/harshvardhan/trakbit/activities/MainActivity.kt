@@ -23,11 +23,8 @@ import com.trakbit.harshvardhan.trakbit.adapters.ViewPageAdapter
 import com.trakbit.harshvardhan.trakbit.fragments.ClockFragment
 import com.trakbit.harshvardhan.trakbit.fragments.ClockListFragment
 import com.trakbit.harshvardhan.trakbit.fragments.MapFragment
-import com.trakbit.harshvardhan.trakbit.ui.Constants
 import io.realm.*
 import kotlinx.android.synthetic.main.activity_main.*
-
-
 
 
 open class MainActivity : AppCompatActivity(),
@@ -44,10 +41,6 @@ open class MainActivity : AppCompatActivity(),
     lateinit var locationManager: LocationManager
 
     private val realm: Realm? = null
-
-    var credentials = SyncCredentials.nickname("nickname", false)
-
-
     val fineLocation = android.Manifest.permission.ACCESS_FINE_LOCATION
     val coarseLocation = android.Manifest.permission.ACCESS_COARSE_LOCATION
     val permissionGranted = PackageManager.PERMISSION_GRANTED
@@ -124,22 +117,13 @@ open class MainActivity : AppCompatActivity(),
 
         mLocationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         checkLocation()
-
-        val constants = Constants()
-        SyncUser.logInAsync(credentials, constants.AUTH_URL, object: SyncUser.Callback<SyncUser> {
-            override fun onSuccess(user:SyncUser) {
-                println("success")
-            }
-            override fun onError(error: ObjectServerError) {
-                println("fail")
-            }
-        })
     }
 
     override fun onDestroy() {
         super.onDestroy()
         realm?.close()
     }
+
 
     private fun setupTabIcons() {
         tabLayout.getTabAt(0)!!.setIcon(R.drawable.ic_access_time_white)

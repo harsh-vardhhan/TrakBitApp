@@ -12,8 +12,6 @@ import com.trakbit.harshvardhan.trakbit.models.Attendance
 import org.joda.time.format.DateTimeFormat
 
 
-
-
 class ClockListAdapter(private var activity: Activity, private var items: ArrayList<Attendance>) : BaseAdapter() {
 
     private class ViewHolder(row: View?) {
