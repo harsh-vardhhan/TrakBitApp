@@ -17,12 +17,15 @@ import com.trakbit.harshvardhan.trakbit.activities.LoginActivity
 import com.trakbit.harshvardhan.trakbit.models.Attendance
 import com.trakbit.harshvardhan.trakbit.models.Location
 import io.realm.Realm
+import io.realm.SyncConfiguration
 import io.realm.SyncUser
 import io.realm.kotlin.createObject
 import io.realm.kotlin.where
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import kotlin.properties.Delegates
+
+
 
 
 class ClockFragment : Fragment() {
@@ -65,6 +68,8 @@ class ClockFragment : Fragment() {
     }
 
     private fun clockDevice() {
+        val user = SyncUser.current()
+        Realm.setDefaultConfiguration(SyncConfiguration.automatic(user));
         realm = Realm.getDefaultInstance()
         if(realm.where<Location>().count() != 0L) {
             val location = realm.where<Location>()?.findAllAsync()?.last()
@@ -79,12 +84,15 @@ class ClockFragment : Fragment() {
                     attendance.longitude = location?.longitude.toString()
                     attendance.clocking = time.toString()
                     attendance.deviceIMEI = tManager.getDeviceId()
+                    realm.where<Location>().findAll().deleteAllFromRealm()
                 }
             }
         }
     }
 
     fun putArguments(bundle: Bundle) {
+        val user = SyncUser.current()
+        Realm.setDefaultConfiguration(SyncConfiguration.automatic(user));
         realm = Realm.getDefaultInstance()
         realm.executeTransaction{
             val location = realm.createObject<Location>()
