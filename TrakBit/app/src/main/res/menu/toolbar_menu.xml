@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@+id/toolBar">
+
+    <item
+        android:id="@+id/deleteClockButton"
+        android:icon="@drawable/ic_delete_white"
+        app:showAsAction="always"
+        android:title="title" />
+
+</menu>
