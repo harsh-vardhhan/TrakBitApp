@@ -13,9 +13,7 @@ Clock Screen       |  Clockings Screen        | Clockings Map Screen     |
 * Location
 * Device
 
-### The app could also allow to clock-in using 
+### Features
+* Tracking Location behind the scenes.
+* Working offline and synced with Realm cloud.
 
-* QR Code
-* Beacon / BLE
-
-### The app should be able to support all of the functionalities in offline mode. 
