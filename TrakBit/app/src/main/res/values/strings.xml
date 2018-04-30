@@ -5,6 +5,7 @@
     <string name="drawer_close">Close</string>
     <string name="clock">Clock</string>
     <string name="logout">Logout</string>
+    <string name="dashboard">Clocking By Day</string>
     <string name="clocking">clocking:</string>
     <string name="latitude">Latitude:</string>
     <string name="longitude">Longitude:</string>

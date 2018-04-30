@@ -34,6 +34,8 @@ buildscript {
     }
 }
 dependencies {
+    implementation 'com.android.support:cardview-v7:26.1.0'
+    implementation 'com.android.support:animated-vector-drawable:26.1.0'
     implementation 'com.github.PhilJay:MPAndroidChart-Realm:v3.0.3@aar'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'io.realm:android-adapters:3.0.0'

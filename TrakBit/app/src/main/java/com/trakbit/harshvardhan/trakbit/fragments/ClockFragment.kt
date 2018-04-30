@@ -76,7 +76,7 @@ class ClockFragment : Fragment() {
             }
             latList.add(BarEntry(date, count, "date"))
         }
-        val dataSet = BarDataSet(latList, "Clocking By Days")
+        val dataSet = BarDataSet(latList, "")
         val data = BarData(dataSet)
         data.setValueTextSize(10f);
         data.barWidth = 0.1f;
