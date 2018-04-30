@@ -34,6 +34,8 @@ buildscript {
     }
 }
 dependencies {
+    implementation 'com.github.PhilJay:MPAndroidChart-Realm:v3.0.3@aar'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'io.realm:android-adapters:3.0.0'
     implementation 'com.google.android.gms:play-services:+'
     implementation "com.github.debop:koda-time:1.2.1"

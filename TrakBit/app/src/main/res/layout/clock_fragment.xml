@@ -11,6 +11,7 @@
     tools:context="com.trakbit.harshvardhan.trakbit.activities.MainActivity"
     tools:showIn="@layout/activity_main">
 
+
     <Button
         android:id="@+id/clockButton"
         android:layout_width="match_parent"
@@ -28,5 +29,11 @@
         android:layout_marginTop="70dp"
         android:text="@string/logout"
         android:textColor="@color/colorPrimaryDark" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/chart1"
+        android:layout_marginTop="140dp"
+        android:layout_width="400dp"
+        android:layout_height="200dp"/>
 
 </app:RelativeLayout>

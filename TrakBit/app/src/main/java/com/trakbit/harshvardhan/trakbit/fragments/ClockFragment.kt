@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.clock_fragment.*
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import com.github.mikephil.charting.data.realm.implementation.RealmBarDataSet
 import com.trakbit.harshvardhan.trakbit.activities.LoginActivity
 import com.trakbit.harshvardhan.trakbit.models.Attendance
 import com.trakbit.harshvardhan.trakbit.models.Location
@@ -24,8 +25,10 @@ import io.realm.kotlin.where
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import kotlin.properties.Delegates
-
-
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 
 
 class ClockFragment : Fragment() {
@@ -34,6 +37,7 @@ class ClockFragment : Fragment() {
     private var realm: Realm by Delegates.notNull()
     private val readPhoneState = android.Manifest.permission.READ_PHONE_STATE
     private val permissionGranted = PackageManager.PERMISSION_GRANTED
+    private var chart: BarChart? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (ContextCompat.checkSelfPermission(context, readPhoneState) != permissionGranted) {
@@ -44,12 +48,31 @@ class ClockFragment : Fragment() {
             )
         }
         super.onCreate(savedInstanceState)
+        val user = SyncUser.current()
+        Realm.setDefaultConfiguration(SyncConfiguration.automatic(user));
+        realm = Realm.getDefaultInstance()
     }
 
     override fun onCreateView(inflater: LayoutInflater?,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        return inflater!!.inflate(R.layout.clock_fragment, container, false)
+
+        val view = inflater!!.inflate(R.layout.clock_fragment, container, false)
+
+        chart = view.findViewById(R.id.chart1)
+        var latList:ArrayList<BarEntry> = ArrayList()
+        val attendances = realm.where<Attendance>().findAll()
+        attendances.forEachIndexed {i,it ->
+            latList.add(BarEntry(it.latitude!!.toFloat(),it.longitude!!.toFloat(),"Lat vs Long"))
+        }
+        val dataSet = BarDataSet(latList,"clocking")
+        val data = BarData(dataSet)
+        data.setValueTextSize(10f);
+        data.setBarWidth(0.9f);
+        chart?.data = data
+        chart?.invalidate()
+
+        return view
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
