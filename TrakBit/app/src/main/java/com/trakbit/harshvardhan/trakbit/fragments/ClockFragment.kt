@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.clock_fragment.*
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import com.github.mikephil.charting.data.realm.implementation.RealmBarDataSet
 import com.trakbit.harshvardhan.trakbit.activities.LoginActivity
 import com.trakbit.harshvardhan.trakbit.models.Attendance
 import com.trakbit.harshvardhan.trakbit.models.Location
@@ -59,16 +58,28 @@ class ClockFragment : Fragment() {
 
         val view = inflater!!.inflate(R.layout.clock_fragment, container, false)
 
+        //Chart
         chart = view.findViewById(R.id.chart1)
         var latList:ArrayList<BarEntry> = ArrayList()
+        var count = 0f
+        var date = 0f
         val attendances = realm.where<Attendance>().findAll()
-        attendances.forEachIndexed {i,it ->
-            latList.add(BarEntry(it.latitude!!.toFloat(),it.longitude!!.toFloat(),"Lat vs Long"))
+        attendances.forEach {
+            val dateTimeFormatter = DateTimeFormat.forPattern("yyyy-mm-dd'T'HH:mm:ssZZ")
+            val dateTimeFormat = dateTimeFormatter.parseDateTime(it.clocking)
+            val dateFormatter = DateTimeFormat.forPattern("dd")
+            val newDate  = dateFormatter.print(dateTimeFormat).toFloat()
+            if (date == newDate) {
+                count++
+            } else {
+                date =  newDate
+            }
+            latList.add(BarEntry(date,count,"date"))
         }
-        val dataSet = BarDataSet(latList,"clocking")
+        val dataSet = BarDataSet(latList,"Clocking By Days")
         val data = BarData(dataSet)
         data.setValueTextSize(10f);
-        data.setBarWidth(0.9f);
+        data.barWidth = 0.1f;
         chart?.data = data
         chart?.invalidate()
 
