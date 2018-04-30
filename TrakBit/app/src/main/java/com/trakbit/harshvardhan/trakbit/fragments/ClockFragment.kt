@@ -60,23 +60,23 @@ class ClockFragment : Fragment() {
 
         //Chart
         chart = view.findViewById(R.id.chart1)
-        var latList:ArrayList<BarEntry> = ArrayList()
-        var count = 0f
+        var latList: ArrayList<BarEntry> = ArrayList()
+        var count = 1f
         var date = 0f
         val attendances = realm.where<Attendance>().findAll()
         attendances.forEach {
             val dateTimeFormatter = DateTimeFormat.forPattern("yyyy-mm-dd'T'HH:mm:ssZZ")
             val dateTimeFormat = dateTimeFormatter.parseDateTime(it.clocking)
             val dateFormatter = DateTimeFormat.forPattern("dd")
-            val newDate  = dateFormatter.print(dateTimeFormat).toFloat()
+            val newDate = dateFormatter.print(dateTimeFormat).toFloat()
             if (date == newDate) {
                 count++
             } else {
-                date =  newDate
+                date = newDate
             }
-            latList.add(BarEntry(date,count,"date"))
+            latList.add(BarEntry(date, count, "date"))
         }
-        val dataSet = BarDataSet(latList,"Clocking By Days")
+        val dataSet = BarDataSet(latList, "Clocking By Days")
         val data = BarData(dataSet)
         data.setValueTextSize(10f);
         data.barWidth = 0.1f;
@@ -92,11 +92,11 @@ class ClockFragment : Fragment() {
             clockDevice()
         }
         logoutButton.setOnClickListener {
-            val users  = SyncUser.all()
+            val users = SyncUser.all()
             users.forEach {
                 it.value.logOut()
             }
-            val intent = Intent(activity,LoginActivity::class.java)
+            val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
         }
     }
@@ -105,7 +105,7 @@ class ClockFragment : Fragment() {
         val user = SyncUser.current()
         Realm.setDefaultConfiguration(SyncConfiguration.automatic(user));
         realm = Realm.getDefaultInstance()
-        if(realm.where<Location>().count() != 0L) {
+        if (realm.where<Location>().count() != 0L) {
             val location = realm.where<Location>()?.findAllAsync()?.last()
             val time = DateTimeFormat
                     .forPattern("yyyy-mm-dd'T'HH:mm:ssZZ")
@@ -128,7 +128,7 @@ class ClockFragment : Fragment() {
         val user = SyncUser.current()
         Realm.setDefaultConfiguration(SyncConfiguration.automatic(user));
         realm = Realm.getDefaultInstance()
-        realm.executeTransaction{
+        realm.executeTransaction {
             val location = realm.createObject<Location>()
             location.latitude = bundle.getDouble("latitude").toString()
             location.longitude = bundle.getDouble("longitude").toString()
