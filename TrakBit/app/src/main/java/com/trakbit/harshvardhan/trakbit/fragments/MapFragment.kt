@@ -16,6 +16,7 @@ import com.google.android.gms.maps.MapView
 import com.trakbit.harshvardhan.trakbit.models.Attendance
 import io.realm.Realm
 import io.realm.kotlin.where
+import org.joda.time.format.DateTimeFormat
 import kotlin.properties.Delegates
 
 
@@ -50,7 +51,11 @@ class MapFragment : Fragment() {
             val attendances = realm.where<Attendance>().findAll()
             attendances.forEachIndexed { i, it ->
                 val location = LatLng((it.latitude)!!.toDouble(),(it.longitude)!!.toDouble())
-                googleMap!!.addMarker(MarkerOptions().position(location))
+                val dateTimeFormatter = DateTimeFormat.forPattern("yyyy-mm-dd'T'HH:mm:ssZZ")
+                val dateTimeFormat = dateTimeFormatter.parseDateTime(it.clocking)
+                val dateFormatter = DateTimeFormat.forPattern("MM/dd/yyyy")
+                val date = dateFormatter.print(dateTimeFormat).toString()
+                googleMap!!.addMarker(MarkerOptions().position(location).title(date))
             }
 
             if (attendances.size > 0) {
