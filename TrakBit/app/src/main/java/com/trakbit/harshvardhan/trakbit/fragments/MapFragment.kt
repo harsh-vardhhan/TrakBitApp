@@ -51,7 +51,7 @@ class MapFragment : Fragment() {
             val attendances = realm.where<Attendance>().findAll()
             attendances.forEachIndexed { i, it ->
                 val location = LatLng((it.latitude)!!.toDouble(),(it.longitude)!!.toDouble())
-                val dateTimeFormatter = DateTimeFormat.forPattern("yyyy-mm-dd'T'HH:mm:ssZZ")
+                val dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ssZZ")
                 val dateTimeFormat = dateTimeFormatter.parseDateTime(it.clocking)
                 val dateFormatter = DateTimeFormat.forPattern("MM/dd/yyyy")
                 val date = dateFormatter.print(dateTimeFormat).toString()

@@ -108,7 +108,7 @@ class ClockFragment : Fragment() {
         if (realm.where<Location>().count() != 0L) {
             val location = realm.where<Location>()?.findAllAsync()?.last()
             val time = DateTimeFormat
-                    .forPattern("yyyy-mm-dd'T'HH:mm:ssZZ")
+                    .forPattern("yyyy-MM-dd'T'HH:mm:ssZZ")
                     .print(DateTime.now())
             val tManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
             if (ContextCompat.checkSelfPermission(context, readPhoneState) == permissionGranted) {
