@@ -96,7 +96,11 @@ class ClockListFragment : Fragment() {
     }
 
     private fun clockData(realm: Realm): ArrayList<Attendance> {
-        val attendances = realm.where<Attendance>().findAllAsync()
+        val user = SyncUser.current()
+        val attendances = realm
+                .where<Attendance>()
+                .equalTo("userId",user.identity)
+                .findAllAsync()
         val attendanceList = arrayListOf<Attendance>()
         attendances.forEachIndexed { i, it ->
             val attendance = Attendance()

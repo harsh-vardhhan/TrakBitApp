@@ -114,6 +114,7 @@ class ClockFragment : Fragment() {
             if (ContextCompat.checkSelfPermission(context, readPhoneState) == permissionGranted) {
                 realm.executeTransaction {
                     val attendance = realm.createObject<Attendance>()
+                    attendance.userId = user.identity
                     attendance.latitude = location?.latitude.toString()
                     attendance.longitude = location?.longitude.toString()
                     attendance.clocking = time.toString()
@@ -130,6 +131,7 @@ class ClockFragment : Fragment() {
         realm = Realm.getDefaultInstance()
         realm.executeTransaction {
             val location = realm.createObject<Location>()
+            location.userId = user.identity
             location.latitude = bundle.getDouble("latitude").toString()
             location.longitude = bundle.getDouble("longitude").toString()
         }
