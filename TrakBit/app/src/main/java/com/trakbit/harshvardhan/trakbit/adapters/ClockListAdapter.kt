@@ -37,7 +37,7 @@ class ClockListAdapter(private var activity: Activity, private var items: ArrayL
             viewHolder = view.tag as ViewHolder
         }
         val attendance = items[position]
-        val dateTimeFormatter = DateTimeFormat.forPattern("yyyy-mm-dd'T'HH:mm:ssZZ")
+        val dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ssZZ")
         val dateTimeFormat = dateTimeFormatter.parseDateTime(attendance.clocking)
         val dateFormatter = DateTimeFormat.forPattern("MM/dd/yyyy")
         val timeFormatter = DateTimeFormat.forPattern("HH:mm:ss")
